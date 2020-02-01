@@ -11,13 +11,14 @@ using System;
 using static System.Console;
 using static System.Convert;
 using FiguresLibrary;
+using System.Text;
 
 namespace Figures
 {
     class Calculate
     {
         const int N = 10;
-        const string EX_N = "число фигур должно быть не меньше 0 и не больше {0}";
+        const string EX_N = "число фигур не должно быть меньше 0 и больше {0}";
         static int CorrectInput(string inputMess, string exMess = EX_N)
         {
             bool sucssesInput = false;
@@ -28,7 +29,7 @@ namespace Figures
                 {
                     Write(inputMess, N);
                     param = ToInt32(ReadLine());
-                    if (param <=0 || param > N)
+                    if (param < 0 || param > N)
                     {
                         throw new MyException(exMess);
                     }
@@ -78,56 +79,68 @@ namespace Figures
             {
                 int n;
                 n = CorrectInput("Введите количество фигур (не больше {0}): --->");
-                ComplexFigure figure = new ComplexFigure(n);
-                for (int i = 0; i < n; i++)
+                if (n != 0)
                 {
-                    TypeFigures typeFigures = 
-                        (TypeFigures)menuFigures.SelectOption("Выбор {0}-ой фигуры:", i);
-                    switch (typeFigures)
-                    {
-                        case TypeFigures.Triangle:
-                            figure[i] = new Triangle();
-                            break;
-                        case TypeFigures.Rhomb:
-                            figure[i] = new Rhomb();
-                            break;
-                        case TypeFigures.Quadrate:
-                            figure[i] = new Quadrate();
-                            break;
-                        case TypeFigures.Parallelogram:
-                            figure[i] = new Parallelogram();
-                            break;
-                        case TypeFigures.Rectangle:
-                            figure[i] = new Rectangle();
-                            break;
-                        case TypeFigures.Trapezium:
-                            figure[i] = new Trapezium();
-                            break;
-                        case TypeFigures.Ellipse:
-                            figure[i] = new Ellipse();
-                            break;
-                        case TypeFigures.Circle:
-                            figure[i] = new Circle();
-                            break;
-                        default:
-                            figure[i] = new Parallelogram();
-                        break;
-                    }
-                    WriteLine("************ Выбрана фигура: {0}. ", figure[i].NameFigure);
-                    figure[i].InputData();
-                    WriteLine(figure[i]);
-                }
-                if (n != 1)
-                {
-                    WriteLine("************ Составная фигура включает в себя : ");
+                    ComplexFigure figures = new ComplexFigure(n);
+                    Clear();
                     for (int i = 0; i < n; i++)
                     {
-                        WriteLine(figure[i]);
+                        TypeFigures typeFigures =
+                            (TypeFigures)menuFigures.SelectOption("Выбор {0}-ой фигуры:", i);
+                        switch (typeFigures)
+                        {
+                            case TypeFigures.Triangle:
+                                figures[i] = new Triangle();
+                                break;
+                            case TypeFigures.Rhomb:
+                                figures[i] = new Rhomb();
+                                break;
+                            case TypeFigures.Quadrate:
+                                figures[i] = new Quadrate();
+                                break;
+                            case TypeFigures.Parallelogram:
+                                figures[i] = new Parallelogram();
+                                break;
+                            case TypeFigures.Rectangle:
+                                figures[i] = new Rectangle();
+                                break;
+                            case TypeFigures.Trapezium:
+                                figures[i] = new Trapezium();
+                                break;
+                            case TypeFigures.Ellipse:
+                                figures[i] = new Ellipse();
+                                break;
+                            case TypeFigures.Circle:
+                                figures[i] = new Circle();
+                                break;
+                            case TypeFigures.Undefined:
+                                figures = null;
+                                break;
+                        }
+                        if (typeFigures != TypeFigures.Undefined)
+                        {
+                            WriteLine("************ Выбрана фигура: {0}. ", figures[i].NameFigure);
+                            figures[i].InputData();
+                            WriteLine(figures[i]);
+                            figures[i].Draw(CursorLeft,CursorTop, ConsoleColor.Blue);
+                        }
+
                     }
-                    WriteLine("************ Площадь и периметр составной фигуры: ");
-                    WriteLine(figure);
+                    if (n != 1)
+                    {
+                        WriteLine("************ Составная фигура включает в себя : ");
+                        foreach (IPoligon figure in figures)
+                        //for (int j = 0; j < n; j++)
+                        {
+                            WriteLine(figure);
+                            figure.Draw(CursorLeft, CursorTop, ConsoleColor.Blue);
+                        }
+                        WriteLine("************ Площадь и периметр составной фигуры: ");
+                        WriteLine(figures);
+                    }
+                    ResetColor();
+                    figures = null;
                 }
-                figure = null;
             } while (menuNewCalc.SelectOption("Выбор дальнейшего действия:") == 1);
         }
     }

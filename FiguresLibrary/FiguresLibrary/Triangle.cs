@@ -4,7 +4,7 @@ using static System.Math;
 
 namespace FiguresLibrary
 {
-    public class Triangle : Figure
+    public class Triangle : Figure, IPoligon
     {
         private double sideA;
         private double sideB;
@@ -14,7 +14,26 @@ namespace FiguresLibrary
             sideA = 0;
             sideB = 0;
             sideC = 0;
-            NameFigure = "Треугольник";
+        }
+        public override string NameFigure
+        {
+            get => "Треугольник";
+        }
+        public override double Area
+        {
+            get
+            {
+                double p = 0.5 * (SideA + SideB + SideC);
+                double s = p * (p - sideA) * (p - sideB) * (p - SideC);
+                return Round(Sqrt(s), 2);
+            }
+        }
+        public override double Perimeter
+        {
+            get
+            {
+                return Round(SideA + SideB + SideC, 2);
+            }
         }
         protected void ThreeSide()
         {
@@ -42,26 +61,43 @@ namespace FiguresLibrary
                 }
             } while (!exist);
         }
-
         public double SideC { get => sideC; set => sideC = value; }
         public double SideA { get => sideA; set => sideA = value; }
         public double SideB { get => sideB; set => sideB = value; }
-
-        public override double CalculateArea()
-        {
-            double p = 0.5 * (SideA + SideB + SideC);
-            double s = p * (p - sideA) * (p - sideB) * (p - SideC);
-            return Round(Sqrt(s),2);
+        public double Base 
+        { 
+            get => sideA;
+            set => sideA = value;
         }
-
-        public override double CalculatePerimeter()
-        {
-            return Round(SideA + SideB + SideC,2);
+        public double Side 
+        { 
+            get => sideB;
+            set => sideB = value;
         }
+        public double AngleBaseSide { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double BaseBig { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double BaseSmall { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AngleBaseBigSide { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AngleBaseSmallSide { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AxisSmall { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AxisBig { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public override void InputData()
         {
             ThreeSide();
         }
-
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            ForegroundColor = consoleColor;
+            SetCursorPosition(posX, posY);
+            WriteLine("       /\\    ");
+            WriteLine("      /  \\    ");
+            WriteLine("     /    \\    ");
+            WriteLine("    /      \\   ");
+            WriteLine("   /        \\  ");
+            WriteLine("  /          \\ ");
+            WriteLine(" ──────────────  ");
+            ResetColor();
+        }
     }
 }

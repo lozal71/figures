@@ -1,36 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static System.Math;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace FiguresLibrary
 {
-    public class ComplexFigure : Figure
+    public class ComplexFigure : Figure, IEnumerable
     {
-        Figure[] figuresArr;
+        IPoligon[] poligonArr;
 
         public ComplexFigure(int n)
         {
-            figuresArr = new Figure[n];
-            NameFigure = "Составная";
+            poligonArr = new IPoligon[n];
+        }
+        public override string NameFigure
+        {
+            get => "Составная";
         }
 
         public int Length
         {
             get
             {
-                return figuresArr.Length;
+                return poligonArr.Length;
             }
         }
-        public Figure this [int index]
+        public IPoligon this[int index]
         {
             get
             {
-                if (index >= 0 && index < figuresArr.Length)
+                if (index >= 0 && index < poligonArr.Length)
                 {
-                    return figuresArr[index];
+                    return poligonArr[index];
                 }
                 else
                 {
@@ -39,34 +40,47 @@ namespace FiguresLibrary
             }
             set
             {
-                figuresArr[index] = value;
+                poligonArr[index] = value;
             }
-
         }
-        public override double CalculateArea()
+        public override double Area
         {
-            double s = 0;
-            for (int i=0; i< figuresArr.Length; i++)
+            get
             {
-                s += figuresArr[i].CalculateArea();
+                double s = 0;
+                for (int i = 0; i < poligonArr.Length; i++)
+                {
+                    s += poligonArr[i].Area;
+                }
+                return Round(s, 2);
             }
-            return Round(s,2);
         }
-
-        public override double CalculatePerimeter()
+        public override double Perimeter
         {
-            double p = 0;
-            for (int i = 0; i < figuresArr.Length; i++)
+            get
             {
-                p += figuresArr[i].CalculatePerimeter();
+                double p = 0;
+                for (int i = 0; i < poligonArr.Length; i++)
+                {
+                    p += poligonArr[i].Perimeter;
+                }
+                return Round(p, 2);
             }
-            return Round(p, 2);
         }
-
 
         public override void InputData()
         {
             throw new NotImplementedException();
+        }
+
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return poligonArr.GetEnumerator();
         }
     }
 }

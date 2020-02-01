@@ -28,11 +28,11 @@ namespace FiguresLibrary
     public abstract class Figure
     {
         public const string EX_SIDE = "Эта величина не может быть " +
-                                            "нулевым или отрицательным значением";
+                                      "нулевым или отрицательным значением";
         public const string EX_SHARP_ANGLE = "Величина острого угла в градусах должна " +
-                                                   "быть в пределах от 0 до 90";
+                                             "быть в пределах от 0 до 90";
         public const string EX_OBTUSE_ANGLE = "Величина тупого угла в градусах должна " +
-                                                    "быть в пределах от 90 до 180";
+                                              "быть в пределах от 90 до 180";
         public const string EX_TRIANGLE_NOT_EXIST = "Такой треугольник не существует. " +
                                                     "Сумма любых двух сторон должна быть " +
                                                     "больше третьей";
@@ -43,12 +43,10 @@ namespace FiguresLibrary
         public const string EX_ELLIPS = "Данные некорректны. Длина меньшей оси " +
                                         "больше длины большей оси";
         public const string TRY_AGAIN = "Попробуйте еще раз....";
-        private string nameFigure;
-        protected Figure()
-        {
-            nameFigure = "не определено";
-        }
-        public string NameFigure { get => nameFigure; set => nameFigure = value; }
+
+        public abstract double Area { get; }
+        public abstract double Perimeter { get; }
+        public abstract string NameFigure { get; }
         protected double CorrectInput(string inputMess, string exMess = EX_SIDE)
         {
             bool sucssesInput = false;
@@ -89,15 +87,14 @@ namespace FiguresLibrary
             } while (!sucssesInput);
             return param;
         }
-        public abstract double CalculateArea();
-        public abstract double CalculatePerimeter();
         public abstract void InputData();
+        public abstract void Draw(int posX, int posY, ConsoleColor consoleColor);
         public override string ToString()
         {
-           return $" Фигура: {NameFigure}. " +
-                  $"Площадь: {Convert.ToString(CalculateArea())}\n" +
-                  $" Фигура: {NameFigure}. " +
-                  $"Периметр:{Convert.ToString(CalculatePerimeter())}\n";
+            return $" Фигура: {NameFigure}. " +
+                   $"Площадь: {Convert.ToString(Area)}\n" +
+                   $" Фигура: {NameFigure}. " +
+                   $"Периметр:{Convert.ToString(Perimeter)}\n";
         }
     }
 }

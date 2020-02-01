@@ -4,7 +4,7 @@ using static System.Console;
 
 namespace FiguresLibrary
 {
-    public class Trapezium : Figure
+    public class Trapezium : Figure, IPoligon
     {
         private double baseSmall;
         private double baseBig;
@@ -19,22 +19,70 @@ namespace FiguresLibrary
             side = 0;
             angleA = 0;
             angleB = 0;
-            NameFigure = "Трапеция";
+        }
+        public override string NameFigure
+        {
+            get => "Трапеция";
         }
 
         public double BaseSmall { get => baseSmall; set => baseSmall = value; }
         public double BaseBig { get => baseBig; set => baseBig = value; }
         public double Side { get => side; set => side = value; }
-        public double AngleA 
+        public double AngleBaseBigSide
         {
             get => Round((angleA * PI) / 180, 2);
             set => Round((angleA * PI) / 180, 2);
         }
-        public double AngleB 
+        public double AngleBaseSmallSide
         {
             get => Round((angleB * PI) / 180, 2);
             set => Round((angleB * PI) / 180, 2);
         }
+        public override double Area
+        {
+            get 
+            {
+                double h = Side * Sin(AngleBaseBigSide);
+                return Round(0.5 * h * (BaseBig + BaseSmall), 2);
+            }
+        }
+        public override double Perimeter
+        {
+            get 
+            {
+                double h = Side * Sin(AngleBaseBigSide);
+                double big1 = Side * Sin(AngleBaseSmallSide);
+                double big2 = (BaseBig - BaseSmall - big1);
+                double side1 = Sqrt(Pow(h, 2) + Pow(big2, 2));
+                return Round(BaseBig + BaseSmall + Side + side1, 2);
+            }
+        }
+
+        public double Base 
+        { 
+            get => baseBig;
+            set => baseBig = value;
+        }
+        public double AngleBaseSide 
+        {
+            get => Round((angleA * PI) / 180, 2);
+            set => Round((angleA * PI) / 180, 2);
+        }
+        public double Side3 
+        { 
+            get => baseSmall; 
+            set => baseSmall = value;
+        }
+        public double AngleSide3Side 
+        {
+            get => Round((angleB * PI) / 180, 2);
+            set => Round((angleB * PI) / 180, 2);
+        }
+        public double SideA { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double SideB { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double SideC { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AxisSmall { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public double AxisBig { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         void TwoBaseOneSideTwoAngle()
         {
@@ -48,10 +96,10 @@ namespace FiguresLibrary
                     Side = CorrectInput("Введите длину боковой стороны: ");
                     angleA = CorrectInput("Введите величину острого угла " +
                                            "между большим основанием " +
-                                           "и боковой стороной (в градусах): ",EX_SHARP_ANGLE);
+                                           "и боковой стороной (в градусах): ", EX_SHARP_ANGLE);
                     angleB = CorrectInput("Введите величину тупого угла " +
                                            "между меньшим основанием " +
-                                           "и боковой стороной (в градусах): ",EX_OBTUSE_ANGLE);
+                                           "и боковой стороной (в градусах): ", EX_OBTUSE_ANGLE);
                     if (angleA + angleB == 180)
                     {
                         exist = true;
@@ -69,25 +117,24 @@ namespace FiguresLibrary
             } while (!exist);
 
         }
-        public override double CalculateArea()
-        {
-            double h = Side * Sin(AngleA);
-            return Round(0.5 * h * (BaseBig + BaseSmall), 2);
-        }
-
-        public override double CalculatePerimeter()
-        {
-            double h = Side * Sin(AngleA);
-            double big1 = Side * Sin(AngleB);
-            double big2 = (BaseBig - BaseSmall - big1);
-            double side1 = Sqrt(Pow(h, 2) + Pow(big2, 2));
-            return Round(BaseBig + BaseSmall + Side + side1, 2);
-       }
-
 
         public override void InputData()
         {
             TwoBaseOneSideTwoAngle();
+        }
+
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            ForegroundColor = consoleColor;
+            SetCursorPosition(posX, posY);
+            WriteLine("       ──────────────       ");
+            WriteLine("      /              \\     ");
+            WriteLine("     /                \\    ");
+            WriteLine("    /                  \\   ");
+            WriteLine("   /                    \\  ");
+            WriteLine("  /                      \\ ");
+            WriteLine(" ────────────────────────── ");
+            ResetColor();
         }
     }
 }

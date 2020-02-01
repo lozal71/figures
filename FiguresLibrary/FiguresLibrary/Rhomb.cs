@@ -1,35 +1,37 @@
 ﻿using System;
-using static System.Math;
 using static System.Console;
-using static System.Convert;
 
 namespace FiguresLibrary
 {
     public class Rhomb : Parallelogram
     {
-        public Rhomb()
+        public override string NameFigure
         {
-            NameFigure = "Ромб";
+            get => "Ромб";
         }
 
         void OneSideAngle()
         {
             SideA = CorrectInput("Введите длину стороны: ");
             SideB = SideA;
-            Angle = CorrectInput("Введите величину острого угла " +
+            AngleBaseSide = CorrectInput("Введите величину острого угла " +
                                  "между сторонами (в градусах): ", EX_SHARP_ANGLE);
-        }
-        public override double CalculateArea()
-        {
-            return base.CalculateArea();
-        }
-        public override double CalculatePerimeter()
-        {
-            return base.CalculatePerimeter();
         }
         public override void InputData()
         {
             OneSideAngle();
+        }
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            ForegroundColor = consoleColor;
+            SetCursorPosition(posX, posY);
+            WriteLine("      ────────────");
+            WriteLine("     /           / ");
+            WriteLine("    /           /  ");
+            WriteLine("   /           /   ");
+            WriteLine("  /           /    ");
+            WriteLine(" ─────────────     ");
+            ResetColor();
         }
     }
 }

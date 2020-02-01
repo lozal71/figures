@@ -1,39 +1,39 @@
 ﻿using System;
 using static System.Console;
-using static System.Convert;
 
 namespace FiguresLibrary
 {
     public class Quadrate :Parallelogram
     {
-        public Quadrate()
+        public override string NameFigure
         {
-            NameFigure = "Квадрат";
+            get => "Квадрат";
         }
 
         void OneSide()
         {
             SideA = CorrectInput("Введите длину стороны A: ");
             SideB = SideA;
-            Angle = 90;
+            AngleBaseSide = 90;
         }
-
-        public override double CalculateArea()
-        {
-            //throw new NotImplementedException();
-            return base.CalculateArea();
-        }
-
-        public override double CalculatePerimeter()
-        {
-            //throw new NotImplementedException();
-            return base.CalculatePerimeter();
-        }
-
 
         public override void InputData()
         {
             OneSide();
+        }
+
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            ForegroundColor = consoleColor;
+            SetCursorPosition(posX, posY);
+            WriteLine("┌─────────────┐");
+            WriteLine("│             │");
+            WriteLine("│             │");
+            WriteLine("│             │");
+            WriteLine("│             │");
+            WriteLine("│             │");
+            WriteLine("└─────────────┘");
+            ResetColor();
         }
     }
 }

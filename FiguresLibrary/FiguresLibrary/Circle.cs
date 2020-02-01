@@ -1,39 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Math;
+using static System.Console;
 
 namespace FiguresLibrary
 {
     public class Circle : Ellipse
     {
-        public Circle()
-        {
-            NameFigure = "Круг";
-        }
 
+        public override string NameFigure
+        {
+            get => "Круг";
+        }
         void OneAxis()
         {
             AxisSmall = CorrectInput("Введите радиус: ");
             AxisBig = AxisSmall;
         }
 
-        public override double CalculateArea()
-        {
-            return base.CalculateArea();
-        }
-
-        public override double CalculatePerimeter()
-        {
-            return Round(2 * PI * AxisSmall,2);
-        }
-
-
         public override void InputData()
         {
             OneAxis();
+        }
+        public override void Draw(int posX, int posY, ConsoleColor consoleColor)
+        {
+            ForegroundColor = consoleColor;
+            SetCursorPosition(posX, posY);
+            WriteLine("          ***        ");
+            WriteLine("       **     **     ");
+            WriteLine("     **         **  ");
+            WriteLine("    *             * ");
+            WriteLine("     **         **  ");
+            WriteLine("       **     **     ");
+            WriteLine("          ***        ");
+            ResetColor();
         }
     }
 }
